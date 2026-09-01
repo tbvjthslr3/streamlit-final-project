@@ -1,0 +1,59 @@
+{
+  "description": "기본 지식베이스로 사용하는 데이터센터 산업 공개 보고서 목록. 모두 발행기관이 웹에 무료 공개한 자료이며, 사내 기밀/개인정보는 포함하지 않는다.",
+  "documents": [
+    {
+      "file": "hana_datacenter_2026.pdf",
+      "title": "데이터센터 Industry In-depth: 데크크(Data center Creator Crew)",
+      "publisher": "하나증권",
+      "date": "2026-07-16",
+      "lang": "ko",
+      "topics": ["국내 AI DC 수요 전망", "전력 수급", "밸류체인", "기업 분석"],
+      "url": "https://file.alphasquare.co.kr/media/pdfs/market-report/%EA%B8%B0%ED%83%80%EB%8D%B0%ED%81%AC%ED%81%AC(Data20260716%ED%95%98%EB%82%98%EC%A6%9D%EA%B6%8C.pdf"
+    },
+    {
+      "file": "keei_ai_datacenter_energy_2025.pdf",
+      "title": "AI 시대 데이터센터 증가의 국내 에너지 소비 시사점 (기본연구 25-09)",
+      "publisher": "에너지경제연구원",
+      "date": "2025",
+      "lang": "ko",
+      "topics": ["국내 에너지 소비", "데이터센터 구조", "에너지 효율", "정책 시사점"],
+      "url": "https://www.keei.re.kr/pdfOpen.es?bid=0001&list_no=127044&seq=1"
+    },
+    {
+      "file": "keei_insight_global_dc_power_2025.pdf",
+      "title": "세계 데이터센터 전력 수급 현황 및 전망 (세계 에너지시장 인사이트 25-8호)",
+      "publisher": "에너지경제연구원",
+      "date": "2025-04-28",
+      "lang": "ko",
+      "topics": ["글로벌 전력 수요", "IEA 시나리오"],
+      "url": "https://www.keei.re.kr/boardDownload.es?bid=0014&list_no=125052&seq=1"
+    },
+    {
+      "file": "iea_energy_and_ai_2025.pdf",
+      "title": "Energy and AI (World Energy Outlook Special Report)",
+      "publisher": "International Energy Agency (IEA)",
+      "date": "2025-04",
+      "lang": "en",
+      "topics": ["global electricity demand", "AI scenarios", "emissions", "energy security"],
+      "url": "https://iea.blob.core.windows.net/assets/de9dea13-b07d-42c5-a398-d1b3ae17d866/EnergyandAI.pdf"
+    },
+    {
+      "file": "cushman_dc_power_2025_kor.pdf",
+      "title": "데이터센터: 전력이라는 과제 (HEADLINE No.3)",
+      "publisher": "Cushman & Wakefield Korea",
+      "date": "2025",
+      "lang": "ko",
+      "topics": ["국내 데이터센터 부동산", "전력 확보", "입지"],
+      "url": "https://assets.cushmanwakefield.com/-/media/cw/apac/south-korea/insights/research/cwresearchdatacentresthepowerchallenge2025kor.pdf"
+    },
+    {
+      "file": "samsung_dc_2024.pdf",
+      "title": "데이터센터: 클라우드에서 AI로, 2차 호황기 진입",
+      "publisher": "삼성증권",
+      "date": "2024-04",
+      "lang": "ko",
+      "topics": ["클라우드", "AI 서버", "투자 사이클", "밸류체인"],
+      "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application/pdf&inlineYn=Y&saveKey=research.pdf&fileName=2020/2024040815412145K_02_05.pdf"
+    }
+  ]
+}

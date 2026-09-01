@@ -1,0 +1,5 @@
+streamlit>=1.38
+openai>=1.51
+pypdf>=5.0
+numpy>=1.26
+rank-bm25>=0.2.2

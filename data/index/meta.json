@@ -1,0 +1,56 @@
+{
+  "built_at": "2026-09-01 15:05:17",
+  "embed_model": "text-embedding-3-small",
+  "chunk_count": 2000,
+  "total_chars": 1446070,
+  "documents": [
+    {
+      "file": "hana_datacenter_2026.pdf",
+      "label": "하나증권 · 데이터센터 Industry In-depth: 데크크(Data center Creator Crew) (2026)",
+      "publisher": "하나증권",
+      "date": "2026-07-16",
+      "url": "https://file.alphasquare.co.kr/media/pdfs/market-report/%EA%B8%B0%ED%83%80%EB%8D%B0%ED%81%AC%ED%81%AC(Data20260716%ED%95%98%EB%82%98%EC%A6%9D%EA%B6%8C.pdf",
+      "chunks": 232
+    },
+    {
+      "file": "keei_ai_datacenter_energy_2025.pdf",
+      "label": "에너지경제연구원 · AI 시대 데이터센터 증가의 국내 에너지 소비 시사점 (기본연구 25-09) (2025)",
+      "publisher": "에너지경제연구원",
+      "date": "2025",
+      "url": "https://www.keei.re.kr/pdfOpen.es?bid=0001&list_no=127044&seq=1",
+      "chunks": 458
+    },
+    {
+      "file": "keei_insight_global_dc_power_2025.pdf",
+      "label": "에너지경제연구원 · 세계 데이터센터 전력 수급 현황 및 전망 (세계 에너지시장 인사이트 25-8호) (2025)",
+      "publisher": "에너지경제연구원",
+      "date": "2025-04-28",
+      "url": "https://www.keei.re.kr/boardDownload.es?bid=0014&list_no=125052&seq=1",
+      "chunks": 20
+    },
+    {
+      "file": "iea_energy_and_ai_2025.pdf",
+      "label": "International Energy Agency (IEA) · Energy and AI (World Energy Outlook Special Report) (2025)",
+      "publisher": "International Energy Agency (IEA)",
+      "date": "2025-04",
+      "url": "https://iea.blob.core.windows.net/assets/de9dea13-b07d-42c5-a398-d1b3ae17d866/EnergyandAI.pdf",
+      "chunks": 1231
+    },
+    {
+      "file": "cushman_dc_power_2025_kor.pdf",
+      "label": "Cushman & Wakefield Korea · 데이터센터: 전력이라는 과제 (HEADLINE No.3) (2025)",
+      "publisher": "Cushman & Wakefield Korea",
+      "date": "2025",
+      "url": "https://assets.cushmanwakefield.com/-/media/cw/apac/south-korea/insights/research/cwresearchdatacentresthepowerchallenge2025kor.pdf",
+      "chunks": 21
+    },
+    {
+      "file": "samsung_dc_2024.pdf",
+      "label": "삼성증권 · 데이터센터: 클라우드에서 AI로, 2차 호황기 진입 (2024)",
+      "publisher": "삼성증권",
+      "date": "2024-04",
+      "url": "https://www.samsungpop.com/common.do?cmd=down&contentType=application/pdf&inlineYn=Y&saveKey=research.pdf&fileName=2020/2024040815412145K_02_05.pdf",
+      "chunks": 38
+    }
+  ]
+}
