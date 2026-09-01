@@ -1,7 +1,8 @@
-"""데이터센터 산업 리포트 Q&A 챗봇 (RAG).
+"""산업 리포트 Q&A 챗봇 (RAG).
 
-공개된 데이터센터 산업보고서 PDF를 벡터 + BM25 하이브리드로 검색해,
-근거 페이지를 인용하며 답변하는 Streamlit 앱.
+산업보고서 PDF를 벡터 + BM25 하이브리드로 검색해, 근거 페이지를 인용하며
+답변하는 범용 Streamlit 앱. 다루는 산업은 코드가 아니라 지식베이스 정의
+(data/sources.json)가 결정하므로, 보고서만 교체하면 어느 산업에서도 쓸 수 있다.
 """
 from __future__ import annotations
 
@@ -14,25 +15,20 @@ from openai import OpenAI
 
 from rag import config
 from rag.answer import NO_CONTEXT_MESSAGE, stream_answer
-from rag.catalog import load_catalog
+from rag.catalog import example_questions, load_catalog, load_collection
 from rag.embeddings import embed_query, embed_texts
 from rag.index import HybridIndex, merge
 from rag.pdf import chunks_from_bytes
 
 st.set_page_config(
-    page_title="데이터센터 산업 리포트 Q&A",
-    page_icon="🏢",
+    page_title="산업 리포트 Q&A",
+    page_icon="📑",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-EXAMPLE_QUESTIONS = [
-    "2030년 국내 AI 데이터센터 수요 전망은 어느 정도인가요?",
-    "글로벌 데이터센터 전력 소비량은 앞으로 얼마나 늘어나나요?",
-    "국내 데이터센터 확충의 가장 큰 병목은 무엇인가요?",
-    "데이터센터 냉각 방식의 기술 트렌드를 정리해 주세요.",
-    "데이터센터 밸류체인에서 수혜가 예상되는 영역은 어디인가요?",
-]
+COLLECTION = load_collection()
+EXAMPLE_QUESTIONS = example_questions(limit=5)
 
 TMP_UPLOAD_DIR = Path(config.DATA_DIR) / "_tmp"
 
@@ -72,7 +68,9 @@ catalog = {d.label: d for d in load_catalog()}
 
 # ---------------------------------------------------------------- 사이드바
 with st.sidebar:
-    st.header("🏢 데이터센터 리서치")
+    st.header("📑 산업 리포트 Q&A")
+    if COLLECTION.name:
+        st.caption(f"기본 지식베이스: **{COLLECTION.name}**")
 
     api_key = config.get_api_key()
     if not api_key:
@@ -107,12 +105,13 @@ with st.sidebar:
         label_visibility="collapsed",
     )
 
-    with st.expander("📄 보고서 원문 보기"):
+    with st.expander("📄 수록 보고서 원문"):
         for doc in catalog.values():
             st.markdown(f"- [{doc.title}]({doc.url})  \n  `{doc.publisher} · {doc.date}`")
 
     st.divider()
     st.subheader("내 보고서 추가")
+    st.caption("다른 산업 보고서를 올려도 동일하게 동작합니다.")
     uploads = st.file_uploader(
         f"PDF 업로드 (파일당 최대 {config.MAX_UPLOAD_MB}MB)",
         type=["pdf"],
@@ -173,24 +172,29 @@ with st.sidebar:
 
 
 # ---------------------------------------------------------------- 본문
-st.title("데이터센터 산업 리포트 Q&A")
+st.title("산업 리포트 Q&A")
 st.caption(
-    "국내외 공개 데이터센터 산업보고서를 근거로 답변합니다. "
-    "모든 답변에는 출처 보고서와 페이지 번호가 붙습니다."
+    "산업보고서 PDF를 근거로 답변합니다. 모든 답변에는 출처 보고서와 페이지 번호가 붙습니다. "
+    "사이드바에서 직접 보고서를 업로드하면 어떤 산업에서도 바로 쓸 수 있습니다."
 )
 
 with st.expander("이 앱은 무엇인가요?"):
     st.markdown(
-        """
-**해결하려는 문제** — 데이터센터 관련 수치 하나를 확인하려면 증권사·연구기관 보고서 수백 페이지를
-매번 열어 찾아야 합니다. 이 앱은 그 보고서들을 하나의 지식베이스로 묶어, 질문 한 줄로
-**근거 페이지와 함께** 답을 돌려줍니다.
+        f"""
+**해결하려는 문제** — 산업 리서치에서 수치 하나를 확인하려면 증권사·연구기관 보고서 수백 페이지를
+매번 열어 찾아야 합니다. 이 앱은 보고서 묶음을 하나의 지식베이스로 만들어, 질문 한 줄로
+**근거 페이지와 함께** 답을 돌려줍니다. 특정 산업 전용이 아니라, 어떤 산업의 보고서든
+넣으면 그대로 동작하는 범용 도구입니다.
+
+**두 가지 사용법**
+1. **기본 지식베이스로 바로 질문** — 현재 {COLLECTION.name or "샘플 보고서"} {len(catalog)}건이 미리 색인되어 있습니다.
+2. **내 보고서 업로드** — 사이드바에서 PDF를 올리면 즉시 색인되어, 그 문서에 대해서도 같은 방식으로 질문할 수 있습니다.
 
 **동작 방식** — 질문을 임베딩해 의미 검색(코사인 유사도)을 하고, 동시에 BM25 키워드 검색을 돌린 뒤
 두 결과를 RRF(Reciprocal Rank Fusion)로 결합합니다. 상위 근거만 LLM에 넘겨 답변을 만들고,
 자료에 없는 내용은 지어내지 않도록 지시합니다.
 
-**주의** — 답변은 공개 보고서 발췌에 기반한 요약이며, 투자 판단의 근거가 아닙니다.
+**주의** — 답변은 보고서 발췌에 기반한 요약이며, 투자 판단의 근거가 아닙니다.
         """
     )
 
@@ -223,14 +227,13 @@ def render_sources(hits) -> None:
 # 예시 질문 (대화 시작 전에만 노출)
 if not st.session_state.messages:
     st.markdown("**이런 질문으로 시작해 보세요**")
-    for col, q in zip(st.columns(3), EXAMPLE_QUESTIONS[:3]):
-        if col.button(q, use_container_width=True):
-            st.session_state.pending_question = q
-            st.rerun()
-    for col, q in zip(st.columns(2), EXAMPLE_QUESTIONS[3:]):
-        if col.button(q, use_container_width=True):
-            st.session_state.pending_question = q
-            st.rerun()
+    # 지식베이스에서 만들어진 질문 개수에 맞춰 행을 나눈다(문서를 교체해도 깨지지 않도록).
+    for row_start in range(0, len(EXAMPLE_QUESTIONS), 3):
+        row = EXAMPLE_QUESTIONS[row_start : row_start + 3]
+        for col, q in zip(st.columns(len(row)), row):
+            if col.button(q, use_container_width=True):
+                st.session_state.pending_question = q
+                st.rerun()
 
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
@@ -238,7 +241,7 @@ for msg in st.session_state.messages:
         if msg["role"] == "assistant":
             render_sources(msg.get("hits", []))
 
-typed_question = st.chat_input("데이터센터 산업에 대해 물어보세요")
+typed_question = st.chat_input(f"{COLLECTION.industry or '산업'} 보고서에 대해 물어보세요")
 question = typed_question or st.session_state.pending_question
 st.session_state.pending_question = None
 
@@ -279,7 +282,11 @@ if question:
                     {"role": m["role"], "content": m["content"]}
                     for m in st.session_state.messages[:-1]
                 ]
-                answer = st.write_stream(stream_answer(client, model, question, hits, history))
+                answer = st.write_stream(
+                    stream_answer(
+                        client, model, question, hits, history, COLLECTION.domain_label
+                    )
+                )
                 st.caption(f"응답 {time.time() - t0:.1f}초 · 근거 {len(hits)}건 · {model}")
                 render_sources(hits)
                 st.session_state.messages.append(
